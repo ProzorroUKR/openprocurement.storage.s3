@@ -10,4 +10,4 @@ def includeme(config):
         bucket_name = settings['s3.bucket']
         config.registry.storage = S3Storage(connection, bucket_name)
     else:
-        raise
+        raise ValueError("s3.access_key, s3.secret_key, s3.bucket are required ")

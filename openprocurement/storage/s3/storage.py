@@ -1,7 +1,12 @@
-from email.header import decode_header
-from openprocurement.documentservice.storage import StorageRedirect, HashInvalid, KeyNotFound, ContentUploaded, get_filename
+from openprocurement.documentservice.storage import (
+    StorageRedirect,
+    HashInvalid,
+    KeyNotFound,
+    ContentUploaded,
+    get_filename,
+)
 from rfc6266 import build_header
-from urllib import quote
+from urllib.parse import quote
 from uuid import uuid4, UUID
 
 

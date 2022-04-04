@@ -2,7 +2,6 @@
 
 import unittest
 from hashlib import md5
-from uuid import uuid4
 from openprocurement.storage.s3.tests.base import BaseWebTest
 
 
