@@ -4,6 +4,8 @@ from openprocurement.storage.s3.storage import S3Storage
 
 def includeme(config):
     settings = config.registry.settings
+    print("settings")
+    print(settings)
     if (
         's3.access_key' in settings
         and 's3.access_key' in settings
