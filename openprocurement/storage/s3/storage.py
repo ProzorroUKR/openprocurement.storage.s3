@@ -50,7 +50,8 @@ class S3Storage:
             if key.compute_md5(in_file)[0] != md5[4:]:
                 raise HashInvalid(md5)
         key.set_metadata('Content-Type', content_type)
-        key.set_metadata("Content-Disposition", build_header(filename, filename_compat=quote(filename.encode('utf-8'))))
+        cd_header = build_header(filename, filename_compat=quote(filename.encode('utf-8'))).decode()
+        key.set_metadata("Content-Disposition", cd_header)
         key.set_contents_from_file(in_file)
         return uuid, 'md5:' + key.etag[1:-1], content_type, filename
 
