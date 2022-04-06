@@ -25,7 +25,6 @@ class S3Storage:
         key = bucket.new_key(path)
         key.set_metadata('hash', md5)
         key.set_contents_from_string('')
-        key.set_acl('private')
         return uuid
 
     def upload(self, post_file, uuid=None):
@@ -53,7 +52,6 @@ class S3Storage:
         key.set_metadata('Content-Type', content_type)
         key.set_metadata("Content-Disposition", build_header(filename, filename_compat=quote(filename.encode('utf-8'))))
         key.set_contents_from_file(in_file)
-        key.set_acl('private')
         return uuid, 'md5:' + key.etag[1:-1], content_type, filename
 
     def get(self, uuid):
