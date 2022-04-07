@@ -49,10 +49,14 @@ class S3Storage:
             md5 = key.get_metadata('hash')
             if key.compute_md5(in_file)[0] != md5[4:]:
                 raise HashInvalid(md5)
-        key.set_metadata('Content-Type', content_type)
         cd_header = build_header(filename, filename_compat=quote(filename.encode('utf-8'))).decode()
-        key.set_metadata("Content-Disposition", cd_header)
-        key.set_contents_from_file(in_file)
+        key.set_contents_from_file(
+            in_file,
+            headers={
+                "Content-Type": content_type,
+                "Content-Disposition": cd_header
+            }
+        )
         return uuid, 'md5:' + key.etag[1:-1], content_type, filename
 
     def get(self, uuid):
