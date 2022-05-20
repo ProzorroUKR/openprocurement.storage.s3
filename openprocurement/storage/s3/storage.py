@@ -10,6 +10,9 @@ from urllib.parse import quote
 from uuid import uuid4, UUID
 
 
+MAX_HEADER_LIMIT = 2048
+
+
 class S3Storage:
     connection = None
     bucket = None
@@ -50,6 +53,10 @@ class S3Storage:
             if key.compute_md5(in_file)[0] != md5[4:]:
                 raise HashInvalid(md5)
         cd_header = build_header(filename, filename_compat=quote(filename.encode('utf-8'))).decode()
+        if len(cd_header) > MAX_HEADER_LIMIT:
+            ext = filename.split(".", maxsplit=1)[-1]
+            short_filename = "file." + ext
+            cd_header = build_header(filename, filename_compat=quote(short_filename.encode('utf-8'))).decode()
         key.set_contents_from_file(
             in_file,
             headers={
