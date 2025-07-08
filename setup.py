@@ -3,7 +3,7 @@ import os
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-with open(os.path.join(here, 'README.rst')) as f:
+with open(os.path.join(here, 'README.md')) as f:
     README = f.read()
 
 version = '1.0.6'
@@ -15,8 +15,11 @@ requires = [
     'setuptools',
 ]
 test_requires = requires + [
-    'webtest',
+    'pytest',
+    'pytest-cov',
     'python-coveralls',
+    'mock',
+    'webtest',
 ]
 docs_requires = requires + [
     'sphinxcontrib-httpdomain',
