@@ -1,0 +1,5 @@
+
+include:
+  - project: 'cdb/openprocurement.storage.s3-ci'
+    ref: master
+    file: '.gitlab-ci-private.yml'
