@@ -55,7 +55,7 @@ class MockKey(object):
     def set_contents_from_string(self, s, headers=NOT_IMPL, replace=NOT_IMPL,
                                  cb=NOT_IMPL, num_cb=NOT_IMPL, policy=NOT_IMPL,
                                  md5=NOT_IMPL, reduced_redundancy=NOT_IMPL):
-        self.data = copy.copy(s)
+        self.data = copy.copy(s.encode('utf-8'))
         self.set_etag()
         self.size = len(s)
         self._handle_headers(headers)
