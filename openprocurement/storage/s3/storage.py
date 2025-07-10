@@ -24,7 +24,7 @@ class S3Storage:
         path = '/'.join([format(i, 'x') for i in UUID(uuid).fields])
         key = bucket.new_key(path)
         key.set_metadata('hash', md5)
-        key.set_contents_from_string(b'')
+        key.set_contents_from_string('')
         return uuid
 
     def upload(self, post_file, uuid=None):
@@ -49,7 +49,7 @@ class S3Storage:
             md5 = key.get_metadata('hash')
             if key.compute_md5(in_file)[0] != md5[4:]:
                 raise HashInvalid(md5)
-        cd_header = build_header(filename, filename_compat=quote(filename.encode('utf-8')))
+        cd_header = build_header(filename, filename_compat=quote(filename.encode('utf-8'))).decode()
         key.set_contents_from_file(
             in_file,
             headers={
