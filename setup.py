@@ -10,9 +10,8 @@ version = '1.0.6'
 
 requires = [
     'boto',
-    'openprocurement.documentservice',
     'rfc6266',
-    'setuptools',
+    'openprocurement.documentservice>=1.4.0',
 ]
 test_requires = requires + [
     'pytest',
