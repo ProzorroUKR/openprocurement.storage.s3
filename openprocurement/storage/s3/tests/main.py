@@ -218,13 +218,30 @@ class SimpleTest(BaseWebTest):
             {'description': 'Key Id does not exist', 'name': 'KeyID', 'location': 'url'}
         ])
 
-        response = self.app.post('/upload', upload_files=[('file', 'file.txt', b'')])
-        self.assertEqual(response.status, '200 OK')
+    def test_upload_empty(self):
+        response = self.app.post('/upload', upload_files=[('file', 'file.txt', b'')], status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
         self.assertEqual(response.content_type, 'application/json')
-        self.assertIn('http://localhost/get/', response.json['get_url'])
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {'description': 'File is empty', 'name': 'file', 'location': 'body'}
+        ])
 
-        response = self.app.get(response.json['get_url'])
-        self.assertEqual(response.status, '302 Found')
+    def test_upload_file_empty(self):
+        content = b'content'
+        md5hash = 'md5:' + md5(content).hexdigest()
+        response = self.app.post('/register', {'hash': md5hash, 'filename': 'file.txt'})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertIn('http://localhost/upload/', response.json['upload_url'])
+
+        response = self.app.post(response.json['upload_url'], upload_files=[('file', 'file.txt', b'')], status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.json['status'], 'error')
+        self.assertEqual(response.json['errors'], [
+            {'description': 'File is empty', 'name': 'file', 'location': 'body'}
+        ])
 
     def test_file_get(self):
         md5hash = 'md5:' + md5(b'content').hexdigest()
