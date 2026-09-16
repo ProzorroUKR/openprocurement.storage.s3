@@ -53,10 +53,6 @@ docs/_build/
 # PyBuilder
 target/
 
-# Buildout
-bin/
-src/
-
 # Local developer configuration
 .mr.developer.cfg
 
