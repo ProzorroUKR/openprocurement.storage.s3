@@ -1,0 +1,63 @@
+[project]
+name = "storage-s3"
+version = "1.0.9"
+description = "S3 storage for OpenProcurement document service"
+readme = "README.md"
+license = "Apache-2.0"
+authors = [
+  { name = "Quintagroup, Ltd.", email = "info@quintagroup.com" }
+]
+keywords = ["web services"]
+classifiers = [
+  "Framework :: Pylons",
+  "Programming Language :: Python",
+  "Topic :: Internet :: WWW/HTTP",
+  "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
+]
+requires-python = ">=3.13.0, <3.14"
+dependencies = [
+    "boto3>=1.40.0,<2",
+]
+
+[project.urls]
+Homepage = "https://github.com/ProzorroUKR/openprocurement.storage.s3"
+
+[project.entry-points."documentservice.plugins"]
+s3 = "storage_s3:includeme"
+
+[dependency-groups]
+dev = [
+    "documentservice",
+    "moto[s3]>=5.1.0",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+    "webtest>=3.0.4",
+]
+
+[tool.uv.sources]
+# TODO: repoint to a git tag once the documentservice uv migration lands on master
+documentservice = { git = "ssh://git@git.prozorro.gov.ua:28722/cdb/openprocurement.documentservice.git", branch = "CS-22204/transfer-to-uv" }
+
+[build-system]
+requires = ["uv_build>=0.12.7,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-ra -v"
+log_cli_level = "INFO"
+python_files = ["tests/*.py"]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
+
+[tool.coverage.run]
+omit = ["*tests*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]
