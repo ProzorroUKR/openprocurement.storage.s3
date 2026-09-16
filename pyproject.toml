@@ -1,6 +1,6 @@
 [project]
 name = "storage-s3"
-version = "1.0.9"
+version = "1.0.10"
 description = "S3 storage for OpenProcurement document service"
 readme = "README.md"
 license = "Apache-2.0"
